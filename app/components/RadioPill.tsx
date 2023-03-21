@@ -5,7 +5,7 @@ import type {
   KeyboardEvent,
 } from 'react';
 import { useRef } from 'react';
-import type { Variant, Color } from './types';
+import type { Variant, Color } from './types.server';
 
 const variants = {
   contained: {
