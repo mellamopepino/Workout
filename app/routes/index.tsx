@@ -1,7 +1,7 @@
 export default function Index() {
   return (
-    <div className="flex justify-center items-center w-screen h-screen font-bold text-9xl">
-      <h1>Workout</h1>
+    <div className="flex justify-center items-center w-screen h-screen flex-col">
+      <h1 className="font-bold text-9xl">Workout</h1>
     </div>
   );
 }
