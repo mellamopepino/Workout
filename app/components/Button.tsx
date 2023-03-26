@@ -191,7 +191,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = (props) => {
   const {
     variant = 'contained',
     color = 'primary',
-    className,
+    className = '',
     children,
     ...rest
   } = props;
