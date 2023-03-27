@@ -1,5 +1,6 @@
 import type { FC, InputHTMLAttributes, ReactNode } from 'react';
 import type { Variant, Color } from 'app/components/types.server';
+import type { BaseInputTypes } from 'app/components/form/types.server';
 
 const inputVariants ={
   contained: {
@@ -175,9 +176,10 @@ const labelVariants ={
   },
 };
 
-export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
+export type BaseInputProps = InputHTMLAttributes<HTMLInputElement> & {
   id: number | string,
   label: string,
+  type?: BaseInputTypes,
   variant?: Variant,
   color?: Color,
   start?: ReactNode,
@@ -186,7 +188,7 @@ export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
   labelClassName?: string,
 };
 
-export const TextInput: FC<TextInputProps> = (props) => {
+export const BaseInput: FC<BaseInputProps> = (props) => {
   const {
     id,
     label,
@@ -235,11 +237,11 @@ export const TextInput: FC<TextInputProps> = (props) => {
         <input
           id={`${id}-input`}
           {...rest}
-          type="text"
           className={`
             peer
             focus:outline-none
             bg-transparent
+            w-full
             ${inputClassName}
           `}
         />
@@ -270,4 +272,4 @@ export const TextInput: FC<TextInputProps> = (props) => {
   );
 };
 
-export default TextInput;
+export default BaseInput;
