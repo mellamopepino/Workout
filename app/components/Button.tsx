@@ -3,7 +3,7 @@ import type {
   ButtonHTMLAttributes,
   PropsWithChildren,
 } from 'react';
-import type { Variant, Color } from './types.server';
+import type { Variant, Color } from 'app/components/types.server';
 
 const variants ={
   contained: {

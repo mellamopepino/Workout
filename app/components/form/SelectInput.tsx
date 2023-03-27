@@ -1,8 +1,12 @@
-import type { FC, TextareaHTMLAttributes, ReactNode, ChangeEvent } from 'react';
-import type { Variant, Color } from './types.server';
-import { useRef } from 'react';
+import type {
+  FC,
+  PropsWithChildren,
+  SelectHTMLAttributes,
+  ReactNode,
+} from 'react';
+import type { Variant, Color } from 'app/components/types.server';
 
-const inputVariants ={
+const inputVariants = {
   contained: {
     primary: `
       bg-light-light text-dark-dark border border-primary
@@ -121,7 +125,7 @@ const inputVariants ={
   },
 };
 
-const labelVariants ={
+const labelVariants = {
   contained: {
     primary: `
       text-primary-dark
@@ -176,20 +180,18 @@ const labelVariants ={
   },
 };
 
-export type TextareaInputProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+export type SelectInputProps = SelectHTMLAttributes<HTMLSelectElement> & {
   id: number | string,
   label: string,
   variant?: Variant,
   color?: Color,
   start?: ReactNode,
   end?: ReactNode,
-  minRows?: number,
-  maxRows?: number,
   inputClassName?: string,
   labelClassName?: string,
 };
 
-export const TextareaInput: FC<TextareaInputProps> = (props) => {
+export const SelectInput: FC<PropsWithChildren<SelectInputProps>> = (props) => {
   const {
     id,
     label,
@@ -197,40 +199,12 @@ export const TextareaInput: FC<TextareaInputProps> = (props) => {
     color = 'primary',
     start = null,
     end = null,
-    maxRows = null,
-    minRows = 1,
-    rows = minRows,
-    onChange = () => null,
     className = '',
     inputClassName = '',
     labelClassName = '',
+    children,
     ...rest
   } = props;
-
-  const inputShadowRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    if(inputShadowRef.current) {
-      inputShadowRef.current.value = event.target.value;
-      const contentHeight = inputShadowRef.current.scrollHeight;
-
-      inputShadowRef.current.value = 'x';
-      const singleRowHeight = inputShadowRef.current.scrollHeight;
-
-      let rows = contentHeight / singleRowHeight;
-
-      if(minRows) {
-        rows = Math.max(rows, minRows);
-      }
-      if(maxRows) {
-        rows = Math.min(rows, maxRows);
-      }
-
-      event.target.rows = rows;
-    }
-
-    onChange(event);
-  };
 
   return (
     <div
@@ -250,7 +224,6 @@ export const TextareaInput: FC<TextareaInputProps> = (props) => {
           border
           px-2 py-1
           placeholder:text-dark-dark/[0.4]
-          relative
           ${inputVariants[variant][color]}
         `}
       >
@@ -265,31 +238,19 @@ export const TextareaInput: FC<TextareaInputProps> = (props) => {
             {start}
           </div>
         )}
-        <textarea
-          {...rest}
+        <select
           id={`${id}-input`}
-          rows={rows}
-          onChange={handleChange}
+          {...rest}
           className={`
+            peer
             focus:outline-none
             bg-transparent
+            w-full
             ${inputClassName}
           `}
-        />
-        <textarea
-          aria-hidden
-          id={`${id}-input-shadow`}
-          ref={inputShadowRef}
-          tabIndex={-1}
-          className={`
-            absolute
-            top-0
-            left-0
-            h-0
-            invisible
-            overflow-hidden
-          `}
-        />
+        >
+          {children}
+        </select>
         {end && (
           <div
             id={`${id}-end`}
@@ -317,4 +278,4 @@ export const TextareaInput: FC<TextareaInputProps> = (props) => {
   );
 };
 
-export default TextareaInput;
+export default SelectInput;
